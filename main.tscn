@@ -1,0 +1,356 @@
+[gd_scene load_steps=25 format=3 uid="uid://cybbm3rgjpch1"]
+
+[ext_resource type="Script" path="res://Map/TerrainLayer.gd" id="2_w7ef3"]
+[ext_resource type="Script" path="res://UI/Camera2D.gd" id="3_2dmkp"]
+[ext_resource type="Texture2D" uid="uid://ckwnuja383ywp" path="res://Graphics/whitetile.png" id="3_kmt40"]
+[ext_resource type="Script" path="res://Map/mapmodes.gd" id="3_lh8hm"]
+[ext_resource type="Script" path="res://UI/province_panel.gd" id="4_4e188"]
+[ext_resource type="Script" path="res://Map/political_map.gd" id="4_10a2j"]
+[ext_resource type="Script" path="res://UI/Control.gd" id="4_50t5j"]
+[ext_resource type="Script" path="res://UI/building_ui.gd" id="5_wa4x6"]
+[ext_resource type="TileSet" uid="uid://b0511jvkbc64b" path="res://terrain_tileset.tres" id="6_3l3am"]
+[ext_resource type="Texture2D" uid="uid://batqqnrievidw" path="res://Graphics/hexcursor.png" id="8_rj0fv"]
+[ext_resource type="Script" path="res://UI/map_cursor.gd" id="9_c6reu"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_j1lod"]
+device = -1
+keycode = 32
+unicode = 32
+
+[sub_resource type="Shortcut" id="Shortcut_hbllm"]
+events = [SubResource("InputEventKey_j1lod")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_1xmq4"]
+device = -1
+keycode = 49
+unicode = 49
+
+[sub_resource type="Shortcut" id="Shortcut_qx18a"]
+events = [SubResource("InputEventKey_1xmq4")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_3u37k"]
+device = -1
+keycode = 50
+unicode = 50
+
+[sub_resource type="Shortcut" id="Shortcut_8yq0v"]
+events = [SubResource("InputEventKey_3u37k")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_annrb"]
+device = -1
+keycode = 51
+unicode = 51
+
+[sub_resource type="Shortcut" id="Shortcut_2giko"]
+events = [SubResource("InputEventKey_annrb")]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_efsrj"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k0xkn"]
+texture = ExtResource("3_kmt40")
+texture_region_size = Vector2i(32, 28)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_5uow0"]
+tile_shape = 3
+tile_layout = 5
+tile_offset_axis = 1
+tile_size = Vector2i(32, 28)
+sources/1 = SubResource("TileSetAtlasSource_k0xkn")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_knqcg"]
+texture = ExtResource("8_rj0fv")
+texture_region_size = Vector2i(32, 28)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_3yqvq"]
+tile_shape = 3
+tile_layout = 5
+tile_offset_axis = 1
+tile_size = Vector2i(32, 28)
+occlusion_layer_0/light_mask = 1
+sources/1 = SubResource("TileSetAtlasSource_knqcg")
+
+[node name="Main" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("3_2dmkp")
+
+[node name="UI_layer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="UI_layer"]
+layout_direction = 2
+layout_mode = 3
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_50t5j")
+
+[node name="Time" type="HBoxContainer" parent="UI_layer/Control"]
+layout_mode = 0
+offset_right = 118.0
+offset_bottom = 31.0
+
+[node name="ButtonPause" type="Button" parent="UI_layer/Control/Time"]
+layout_mode = 2
+focus_mode = 0
+toggle_mode = true
+action_mode = 0
+shortcut = SubResource("Shortcut_hbllm")
+text = "="
+
+[node name="Button1x" type="Button" parent="UI_layer/Control/Time"]
+z_as_relative = false
+layout_mode = 2
+focus_mode = 0
+toggle_mode = true
+shortcut = SubResource("Shortcut_qx18a")
+text = "1x"
+
+[node name="Button2x" type="Button" parent="UI_layer/Control/Time"]
+layout_mode = 2
+focus_mode = 0
+toggle_mode = true
+shortcut = SubResource("Shortcut_8yq0v")
+text = "2x"
+
+[node name="Button3x" type="Button" parent="UI_layer/Control/Time"]
+layout_mode = 2
+focus_mode = 0
+toggle_mode = true
+shortcut = SubResource("Shortcut_2giko")
+text = "3x"
+
+[node name="Weekday" type="PanelContainer" parent="UI_layer/Control/Time"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="WeekdayLabel" type="Label" parent="UI_layer/Control/Time/Weekday"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Date" type="PanelContainer" parent="UI_layer/Control/Time"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="DateLabel" type="Label" parent="UI_layer/Control/Time/Date"]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control2" type="Control" parent="UI_layer"]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -102.0
+offset_top = -48.0
+offset_right = -62.0
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("3_lh8hm")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI_layer/Control2"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Toggle_political_map" type="Button" parent="UI_layer/Control2/HBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+text = "toggle map"
+
+[node name="province_panel" type="Panel" parent="UI_layer"]
+unique_name_in_owner = true
+visible = false
+z_index = 5
+z_as_relative = false
+custom_minimum_size = Vector2(100, 100)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -498.0
+offset_right = 360.0
+offset_bottom = 102.0
+grow_vertical = 0
+script = ExtResource("4_4e188")
+
+[node name="TabContainer" type="TabContainer" parent="UI_layer/province_panel"]
+z_index = 1
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 300.0
+mouse_filter = 0
+current_tab = 0
+clip_tabs = false
+
+[node name="Info" type="VBoxContainer" parent="UI_layer/province_panel/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Workplaces" type="VBoxContainer" parent="UI_layer/province_panel/TabContainer"]
+visible = false
+layout_mode = 2
+mouse_filter = 0
+metadata/_tab_index = 1
+
+[node name="Population" type="VBoxContainer" parent="UI_layer/province_panel/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Market" type="VBoxContainer" parent="UI_layer/province_panel/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
+
+[node name="workplace_ui" type="Panel" parent="UI_layer"]
+unique_name_in_owner = true
+z_index = 5
+z_as_relative = false
+custom_minimum_size = Vector2(1200, 600)
+layout_direction = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.1
+anchor_right = 0.5
+anchor_bottom = 0.9
+offset_left = -300.0
+offset_top = -8.40002
+offset_right = 300.0
+offset_bottom = -56.4
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_wa4x6")
+
+[node name="TabContainer" type="TabContainer" parent="UI_layer/workplace_ui"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+
+[node name="Production" type="VBoxContainer" parent="UI_layer/workplace_ui/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="NameLabel" type="Label" parent="UI_layer/workplace_ui/TabContainer/Production"]
+layout_mode = 2
+text = "workplace name"
+
+[node name="EmploymentBar" type="ProgressBar" parent="UI_layer/workplace_ui/TabContainer/Production"]
+layout_mode = 2
+step = 1.0
+allow_greater = true
+
+[node name="Throughput" type="HBoxContainer" parent="UI_layer/workplace_ui/TabContainer/Production"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+
+[node name="Input" type="VBoxContainer" parent="UI_layer/workplace_ui/TabContainer/Production/Throughput"]
+custom_minimum_size = Vector2(550, 0)
+layout_mode = 2
+
+[node name="Input Goods Label" type="Label" parent="UI_layer/workplace_ui/TabContainer/Production/Throughput/Input"]
+layout_mode = 2
+text = "Input Goods:"
+
+[node name="Output" type="VBoxContainer" parent="UI_layer/workplace_ui/TabContainer/Production/Throughput"]
+custom_minimum_size = Vector2(550, 0)
+layout_mode = 2
+
+[node name="Output Goods Label" type="Label" parent="UI_layer/workplace_ui/TabContainer/Production/Throughput/Output"]
+layout_mode = 2
+text = "Output Goods:"
+
+[node name="Balance" type="VBoxContainer" parent="UI_layer/workplace_ui/TabContainer/Production"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 10
+
+[node name="Revenue" type="Label" parent="UI_layer/workplace_ui/TabContainer/Production/Balance"]
+layout_mode = 2
+text = "800"
+
+[node name="InputCost" type="Label" parent="UI_layer/workplace_ui/TabContainer/Production/Balance"]
+layout_mode = 2
+text = "300"
+
+[node name="WageCost" type="Label" parent="UI_layer/workplace_ui/TabContainer/Production/Balance"]
+layout_mode = 2
+text = "200"
+
+[node name="Total" type="Label" parent="UI_layer/workplace_ui/TabContainer/Production/Balance"]
+layout_mode = 2
+text = "300"
+
+[node name="Cashreserve" type="Label" parent="UI_layer/workplace_ui/TabContainer/Production/Balance"]
+layout_mode = 2
+
+[node name="Assets" type="VBoxContainer" parent="UI_layer/workplace_ui/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="AssetGrid" type="GridContainer" parent="UI_layer/workplace_ui/TabContainer/Assets"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+columns = 3
+
+[node name="Employees" type="VBoxContainer" parent="UI_layer/workplace_ui/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Ownership" type="VBoxContainer" parent="UI_layer/workplace_ui/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
+
+[node name="CloseButton" type="Button" parent="UI_layer/workplace_ui"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Map" type="Node2D" parent="."]
+
+[node name="Political" type="TileMapLayer" parent="Map"]
+z_index = 2
+z_as_relative = false
+material = SubResource("CanvasItemMaterial_efsrj")
+use_parent_material = true
+tile_set = SubResource("TileSet_5uow0")
+use_kinematic_bodies = true
+script = ExtResource("4_10a2j")
+
+[node name="Terrain" type="TileMapLayer" parent="Map"]
+use_parent_material = true
+tile_set = ExtResource("6_3l3am")
+script = ExtResource("2_w7ef3")
+
+[node name="map_cursor" type="TileMapLayer" parent="Map"]
+z_index = 3
+tile_set = SubResource("TileSet_3yqvq")
+script = ExtResource("9_c6reu")

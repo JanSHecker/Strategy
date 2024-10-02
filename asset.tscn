@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://dx5ghbm2bu8le"]
+
+[node name="Asset" type="Control"]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 1.00919)
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.02
+anchor_right = 0.5
+anchor_bottom = 0.98
+offset_left = -112.5
+offset_right = 112.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 2
+
+[node name="AssetNameLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 2
+size_flags_stretch_ratio = 3.19
+text = "Standardized Manual Tools"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="AssetLogo" type="ColorRect" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+color = Color(0.896704, 0.935258, 0.622988, 1)
+
+[node name="AssetEffects" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/AssetEffects"]
+layout_mode = 2
+text = "+50 Machinist
+"
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/AssetEffects"]
+layout_mode = 2
+text = "+50 Wood per Level
+"
+
+[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer/AssetEffects"]
+layout_mode = 2
+
+[node name="ProgressNR" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+size_flags_stretch_ratio = 3.42
+text = "Tools: 100/300
+"
+
+[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="ColorRect" type="ColorRect" parent="."]
+modulate = Color(0.254987, 0.213012, 0.236526, 1)
+show_behind_parent = true
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
