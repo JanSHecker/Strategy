@@ -9,6 +9,7 @@ extends Panel
 @onready var wage_cost = $TabContainer/Production/Balance/WageCost
 @onready var total = $TabContainer/Production/Balance/Total
 @onready var employment_bar = $TabContainer/Production/EmploymentBar
+@onready var asset_grid = $TabContainer/Assets/AssetGrid
 
 var selected_workplace: Workplace
 # Called when the node enters the scene tree for the first time.
@@ -75,7 +76,17 @@ func update_workplace_ui():
 		output_goods.add_child(output_label)
 
 
+	#Assets
+	for asset in selected_workplace.assets.values():
+		var asset_panel = preload("res://asset.tscn").instantiate()
+		print(asset)
+		asset_grid.add_child(asset_panel)
+		asset_panel.set_asset(AssetDefinition.manual_tools_logging)
+		
+
+
 func clear_building_ui():
 	for child in %workplace_ui/TabContainer/Production/Throughput.get_children():
 		for grandchild in child.get_children():
 			grandchild.queue_free()
+	asset_grid.queue_free()

@@ -45,7 +45,6 @@ func generate_population():
 func get_population(): 
 	var total_population = 0
 	for pop in pops:
-		print(pop.size)
 		total_population += pop.size
 	return total_population
 		

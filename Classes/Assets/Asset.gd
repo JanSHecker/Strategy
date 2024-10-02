@@ -30,3 +30,5 @@ func _process(delta: float) -> void:
 	pass
 
 	
+func get_asset_coverage_percentage():
+	return snapped(asset_amount / (asset_maximum_per_level * workplace.size), 0.01)

@@ -93,3 +93,9 @@ func get_current_total_employment():
 		total_employment += get_workforce_size(poptype)
 	return total_employment
 		
+
+func get_asset(asset: Asset):
+	var copy =  asset.duplicate()
+	print(asset.get_property_list())
+	copy.workplace = self
+	return copy

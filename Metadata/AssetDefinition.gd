@@ -1,6 +1,7 @@
 extends Resource
 class_name AssetDefinition
 
+
 static var manual_tools_logging = Asset.new(
 	"Manual Tools Logging",
 	100,

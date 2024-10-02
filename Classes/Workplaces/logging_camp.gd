@@ -23,9 +23,8 @@ func _init(location: Province) -> void:
 	base_employment_per_level = {
 		Poptypes.WORKER: 100,
 	}
-	var test = AssetDefinition.manual_tools_logging
 	self.assets = {
-		AssetDefinition.manual_tools_logging: manual_tools_logging.duplicate()
+		AssetDefinition.manual_tools_logging: get_asset(AssetDefinition.manual_tools_logging)
 	}
 
 func send_order():

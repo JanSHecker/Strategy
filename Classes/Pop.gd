@@ -13,7 +13,6 @@ var deathrate= 0.04
 func _init(workforce: int, workplace: Workplace, type: String ) -> void:
 	self.workforce_size = workforce
 	self.size = workforce / workforce_ratio
-	print(size)
 	self.workplace = workplace
 	self.type = type
 	workplace.location.pops.append(self)
@@ -28,7 +27,6 @@ func population_growth_tic():
 	size = max(monthly_rate * size,size+1)
 	workforce_size = size * workforce_ratio
 	trim_workforce()
-	print(workforce_size)
 	
 func transfer_workforce(amount: int,targetPop: Pop):          #We transfer population as workforce
 	var actual_transfer = 0

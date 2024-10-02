@@ -1,0 +1,13 @@
+res://asset.tscn
+res://Map/TerrainLayer.gd
+res://terrain_tileset.tres
+res://Graphics/tileShader.gdshader
+res://Classes/Assets/Asset.gd
+res://asset_panel.gd
+res://UI/building_ui.gd
+res://Classes/Workplaces/logging_camp.gd
+res://main.tscn
+res://Metadata/AssetDefinition.gd
+res://Classes/Province.gd
+res://Classes/Pop.gd
+res://Classes/Workplaces/workplace.gd

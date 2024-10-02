@@ -1,5 +1,5 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1727822075
+::res://::1727879477
 asset.tscn::PackedScene::8835913662179694862::1727794034::0::1::::<><>::
 gamestate.gd::GDScript::-1::1727695355::0::1::::<>Node<>::
 main.tscn::PackedScene::6459521636173375128::1727803878::0::1::::<><>::res://Map/TerrainLayer.gd<>res://UI/Camera2D.gd<>uid://ckwnuja383ywp::::res://Graphics/whitetile.png<>res://Map/mapmodes.gd<>res://UI/province_panel.gd<>res://Map/political_map.gd<>res://UI/Control.gd<>res://UI/building_ui.gd<>uid://b0511jvkbc64b::::res://terrain_tileset.tres<>uid://batqqnrievidw::::res://Graphics/hexcursor.png<>res://UI/map_cursor.gd
@@ -18,11 +18,11 @@ artisinal_workshop.gd::GDScript::-1::1726687522::0::1::::Artisinal_Workshop<>Wor
 logging_camp.gd::GDScript::-1::1727804782::0::1::::Logging_Camp<>Workplace<>::
 subsistance_farm.gd::GDScript::-1::1727709739::0::1::::Subsistance_Farm<>Workplace<>::
 workplace.gd::GDScript::-1::1727712498::0::1::::Workplace<>Resource<>::
-::res://Graphics/::1727804782
+::res://Graphics/::1727824989
 fantasyhextiles_v3.png::CompressedTexture2D::1993863670321439954::1725269315::1726227237::1::::<><>::
 hexcursor.png::CompressedTexture2D::2426644615041868996::1725617207::1726227240::1::::<><>::
 icon.svg::CompressedTexture2D::6012547347157842590::1725269163::1726227242::1::::<><>::
-tileShader.gdshader::Shader::-1::1727804782::0::1::::<><>::
+tileShader.gdshader::Shader::-1::1727824989::0::1::::<><>::
 TileShaderMaterial.tres::ShaderMaterial::6900819863504659042::1726227258::0::1::::<><>::res://Graphics/tileShader.gdshader
 whitetile.png::CompressedTexture2D::5520971625167474251::1725460744::1726227256::1::::<><>::
 ::res://Map/::1727802272
