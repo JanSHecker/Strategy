@@ -1,17 +1,28 @@
 #gamestate.gd
 extends Node
 
-
+var grid:TileMapLayer
 var countries = {}
+var regions = {}
 var provinces = {}
+var locations = {}
+
+
 var terrainmap: TileMapLayer
 var politicalmap: TileMapLayer
 var map_cursor: TileMapLayer
+var player_country_id: String
+var economic_system
+var transportation_network = TransportationNetwork.new()
 
 var pop_register = []
 var workplace_register = []
 
 var workplace_ui
+var country_panel
+
+var selected_provice
+var selected_region
 
 func create_country(country_id: String, name: String):
 	countries[country_id] = (Country.new(country_id, name))
@@ -23,15 +34,9 @@ func _ready() -> void:
 func get_province(tile_position: Vector2i) -> Variant:
 	return provinces.get(tile_position, null)
 
-func add_province(location: Vector2i, id: int, development_level: int, terrain: String):
-	provinces[location] = Province.new(id,terrain, development_level, location)
-
-#func populate_map():
-	#var min = 100
-	#var max = 3000
-	#for location in provinces.keys():
-		#if provinces[location].population == 0 && provinces[location].terrain == "land":
-			#provinces[location].population = randi()% (max - min + 1) + min
+func add_province(location: Vector2i, id: String, development_level: int, terrain: String):
+	provinces[id] = Province.new(id,terrain, development_level, location)
+	locations[location] = id
 
 func add_city(location: Vector2i):
 	var province = provinces[location]
@@ -46,10 +51,9 @@ func daily_tick():
 	pass
 	
 func weekly_tick():
-	economy()
-	workplace_ui.update_workplace_ui()
+	await economic_system.econmic_cycle()
 	employment()
-	map_cursor.ui_panel.update_province_panel()
+	
 	
 func monthly_tick():
 	pop_growth()
@@ -65,27 +69,33 @@ func pop_growth():
 	map_cursor.ui_panel.update_province_panel()
 	
 	
-func economy():
-	#order phase
-	for workplace in workplace_register:
-		workplace.send_order()
-	#input phase
-	for province in provinces.values():
-		if province.market != null:
-			province.market.resolve_demand()
-	#output phase
-	for workplace in workplace_register:
-		workplace.throughput()
+
 
 func employment():
-	for workplace in workplace_register:
-		if workplace.workplace_type != WP.SUBSITANCE:
+	for region in regions.values():
+		for workplace in region.workplaces.values():
 			var missing_employment = workplace.get_missing_employment()
-			if workplace.can_afford_wages(missing_employment):
-				for poptype in missing_employment:
-					workplace.employ(missing_employment[poptype], poptype)
+			for poptype in missing_employment:
+				if missing_employment[poptype] >= 0:
+					var amount = max(missing_employment[poptype] / 10, min(30,missing_employment[poptype]))
+					workplace.employ(int(amount), poptype)
+				else:
+					var amount = -1 * missing_employment[poptype]
+					workplace.fire(int(amount),poptype)
 			if workplace.has_no_workers():
-				var base = workplace.base_employment_per_level
+				var base = workplace.desired_employment
 				for poptype in base:
 					workplace.employ(base[poptype] / 10, poptype)
-			
+
+
+
+func select_random_player_country():
+	var rand = randi_range(0,countries.size()-1)
+	set_player_country(str(rand))
+	politicalmap.update_political_map()
+	
+	
+func set_player_country(country_id: String):
+	if countries.keys().has(country_id):
+		player_country_id = country_id
+		UI.update_country_overview()

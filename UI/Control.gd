@@ -14,7 +14,7 @@ var game_year = 1000
 var weekday = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
 
 
-var speed_buttons = []
+var speed_buttons = {}
 # Zeigt an, wie schnell die Zeit tickt (Anzahl der Sekunden für 1 Ingame-Tag)
 var time_per_day = 1.0  # 1 echter Sekunde = 1 Ingame-Tag (kann angepasst werden)
 
@@ -28,11 +28,11 @@ var time_passed = 0.0
 # Diese Funktion wird aufgerufen, wenn der Spieler auf eine Geschwindigkeitstaste klickt
 func _on_speed_button_pressed(speed: float):
 	# Unpress all buttons before pressing the selected one
-	for button in speed_buttons:
+	for button in speed_buttons.values():
 		button.set_pressed(false)
 	
 	# Set the currently pressed button to true
-	speed_buttons[speed].set_pressed(true)
+	speed_buttons[str(speed)].set_pressed(true)
 	
 	# Update the current speed and the engine time scale
 	current_speed = speed
@@ -44,18 +44,17 @@ func _ready():
 	weekday_label.text = weekday[0]
 	date_label.text = "Date: %02d/%02d/%d" % [display_day, game_month, game_year]
 	$Time/ButtonPause.connect("pressed", Callable(self, "_on_speed_button_pressed").bind(0))  # Pause
-	speed_buttons.append($Time/ButtonPause)
+	speed_buttons["0.0"] = $Time/ButtonPause
 	
 	$Time/Button1x.connect("pressed", Callable(self, "_on_speed_button_pressed").bind(1))     # 1x speed
-	speed_buttons.append($Time/Button1x)
+	speed_buttons["1.0"] = $Time/Button1x
 	
 	$Time/Button2x.connect("pressed", Callable(self, "_on_speed_button_pressed").bind(2))     # 2x speed
-	speed_buttons.append($Time/Button2x)
+	speed_buttons["2.0"] = $Time/Button2x
 	
 	$Time/Button3x.connect("pressed", Callable(self, "_on_speed_button_pressed").bind(3))     # 3x speed
-	speed_buttons.append($Time/Button3x)
+	speed_buttons["3.0"] = $Time/Button3x
 	_on_speed_button_pressed(0)
-	print(speed_buttons)
 # Prozess, der jeden Frame läuft und das Datum aktualisiert
 func _process(delta: float):
 	# Aktualisiere die vergangene Zeit, multipliziert mit der Spielgeschwindigkeit
@@ -64,7 +63,7 @@ func _process(delta: float):
 	# Überprüfen, ob ein Tag vergangen ist
 	if time_passed >= time_per_day:
 		time_passed = 0.0  # Zeit zurücksetzen
-		advance_game_date()  # Datum um einen Tag weiterstellen
+		await advance_game_date()  # Datum um einen Tag weiterstellen
 		
 # Funktion, um das Ingame-Datum um einen Tag voranzuschreiten
 func advance_game_date():
@@ -72,7 +71,7 @@ func advance_game_date():
 	display_day += 1
 	GameState.daily_tick()
 	if weekday_counter == 7:
-		GameState.weekly_tick()
+		await GameState.weekly_tick()
 		weekday_counter = 0
 	if display_day > 30:  # Einfache Annahme: Jeder Monat hat 30 Tage
 		display_day = 1

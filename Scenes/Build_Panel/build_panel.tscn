@@ -1,0 +1,97 @@
+[gd_scene load_steps=5 format=3 uid="uid://dwmjiwgmjqi76"]
+
+[ext_resource type="Texture2D" uid="uid://dg4ibisy5ewo5" path="res://Graphics/kenney_ui-pack-pixel-adventure/Tiles/Large tiles/Thick outline/tile_0001.png" id="1_eml3h"]
+[ext_resource type="Texture2D" uid="uid://ds5bb23mt0ga4" path="res://Graphics/kenney_ui-pack-pixel-adventure/Tiles/Large tiles/Thick outline/tile_0000.png" id="1_ijxdu"]
+[ext_resource type="Script" uid="uid://cp7af2lo1s1vc" path="res://Scenes/Build_Panel/build_workplace_ui.gd" id="2_7whta"]
+[ext_resource type="PackedScene" uid="uid://bojikqss5t76t" path="res://Scenes/Build_Button/Build_Button.tscn" id="3_mgl7e"]
+
+[node name="build_panel" type="NinePatchRect" node_paths=PackedStringArray("container")]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 650.0
+offset_top = 90.0
+offset_right = 1280.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ijxdu")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+script = ExtResource("2_7whta")
+container = NodePath("Bodyrect/ScrollContainer/GridContainer")
+
+[node name="LabelRect" type="NinePatchRect" parent="."]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_left = 10.0
+offset_top = -4.0
+offset_right = -10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_eml3h")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="Label" type="Label" parent="LabelRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Potential Buildings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Bodyrect" type="NinePatchRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 40.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_eml3h")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Bodyrect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="Bodyrect/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 15
+columns = 3
+
+[node name="BuildButton" parent="Bodyrect/ScrollContainer/GridContainer" instance=ExtResource("3_mgl7e")]
+layout_mode = 2
+
+[node name="BuildButton2" parent="Bodyrect/ScrollContainer/GridContainer" instance=ExtResource("3_mgl7e")]
+layout_mode = 2
+
+[node name="BuildButton3" parent="Bodyrect/ScrollContainer/GridContainer" instance=ExtResource("3_mgl7e")]
+layout_mode = 2

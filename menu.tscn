@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3la4ahq3bwh2"]
+
+[ext_resource type="Texture2D" uid="uid://dg4ibisy5ewo5" path="res://Graphics/kenney_ui-pack-pixel-adventure/Tiles/Large tiles/Thick outline/tile_0001.png" id="1_ouk20"]
+[ext_resource type="Script" uid="uid://bhdkb0xsnn416" path="res://menu.gd" id="2_mae5d"]
+
+[node name="Menu" type="NinePatchRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("1_ouk20")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+script = ExtResource("2_mae5d")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 250.0
+offset_bottom = -20.0
+theme_override_constants/separation = 15
+
+[node name="CreateMap" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Create Map"
+
+[node name="LoadMap" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Load Map"
+
+[node name="TerrainOnly" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Terrain Only"

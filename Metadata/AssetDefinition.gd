@@ -1,13 +1,9 @@
 extends Resource
 class_name AssetDefinition
 
+#Logging
+const MANUAL_TOOLS_LOGGING = "Manual Tools Logging"
+const MECHANICAL_SAWS_LOGGING = "Mechanical Saws Logging"
 
-static var manual_tools_logging = Asset.new(
-	"Manual Tools Logging",
-	100,
-	{Goods.TOOLS: 100},
-	{Poptypes.MACHINIST:50},
-	{},
-	{Goods.WOOD: 50},
-	1
-)
+#Steel
+const BESSEMER_PROCESS = "Bessemer Process"

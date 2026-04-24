@@ -1,0 +1,128 @@
+[gd_scene load_steps=6 format=3 uid="uid://dq2010jsf32hn"]
+
+[ext_resource type="Texture2D" uid="uid://dg4ibisy5ewo5" path="res://Graphics/kenney_ui-pack-pixel-adventure/Tiles/Large tiles/Thick outline/tile_0001.png" id="1_n3qdh"]
+[ext_resource type="Script" uid="uid://ckchwq35sbgu6" path="res://Scenes/Pop_Panel/pop_panel.gd" id="2_s5avf"]
+[ext_resource type="PackedScene" uid="uid://dox8jshli6rwu" path="res://Scenes/Goods_Counter_Box/Goods_Counter_Box.tscn" id="3_c6w2m"]
+[ext_resource type="Texture2D" uid="uid://c11v23r7pb1vs" path="res://Graphics/kenney_ui-pack-pixel-adventure/Tiles/Small tiles/Thin outline/tile_0004.png" id="3_elatc"]
+[ext_resource type="Texture2D" uid="uid://bhuofo7mqsf7x" path="res://Graphics/kenney_ui-pack-pixel-adventure/Tiles/Large tiles/Thick outline/tile_0002.png" id="4_ntqac"]
+
+[node name="PopPanel" type="NinePatchRect" node_paths=PackedStringArray("needs_container", "close_button", "balance_label", "consumption_label")]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 670.0
+offset_top = 80.0
+offset_right = 1300.0
+offset_bottom = -20.0
+texture = ExtResource("1_n3qdh")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+script = ExtResource("2_s5avf")
+needs_container = NodePath("TabContainer/Consumption/ScrollContainer/GridContainer")
+close_button = NodePath("TextureButton")
+balance_label = NodePath("NinePatchRect/Label")
+consumption_label = NodePath("TabContainer/Consumption/ConsumptionLV")
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+
+[node name="Consumption" type="NinePatchRect" parent="TabContainer"]
+layout_mode = 2
+texture = ExtResource("1_n3qdh")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+metadata/_tab_index = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Consumption"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 60.0
+offset_right = -10.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="TabContainer/Consumption/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 25
+theme_override_constants/v_separation = 15
+columns = 3
+
+[node name="GoodsCounterBox" parent="TabContainer/Consumption/ScrollContainer/GridContainer" instance=ExtResource("3_c6w2m")]
+layout_mode = 2
+
+[node name="GoodsCounterBox4" parent="TabContainer/Consumption/ScrollContainer/GridContainer" instance=ExtResource("3_c6w2m")]
+layout_mode = 2
+
+[node name="GoodsCounterBox2" parent="TabContainer/Consumption/ScrollContainer/GridContainer" instance=ExtResource("3_c6w2m")]
+layout_mode = 2
+
+[node name="GoodsCounterBox3" parent="TabContainer/Consumption/ScrollContainer/GridContainer" instance=ExtResource("3_c6w2m")]
+layout_mode = 2
+
+[node name="ConsumptionLV" type="Label" parent="TabContainer/Consumption"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_left = 10.0
+offset_right = -10.0
+offset_bottom = 50.0
+grow_horizontal = 2
+text = "Consumption Level: 1"
+vertical_alignment = 1
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+offset_right = -5.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("3_elatc")
+stretch_mode = 0
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -60.0
+offset_right = -60.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("4_ntqac")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="Label" type="Label" parent="NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1

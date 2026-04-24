@@ -1,0 +1,293 @@
+[gd_scene load_steps=8 format=3 uid="uid://cbbva8p6smmk"]
+
+[ext_resource type="Texture2D" uid="uid://ds5bb23mt0ga4" path="res://Graphics/kenney_ui-pack-pixel-adventure/Tiles/Large tiles/Thick outline/tile_0000.png" id="1_7wb0g"]
+[ext_resource type="Texture2D" uid="uid://dg4ibisy5ewo5" path="res://Graphics/kenney_ui-pack-pixel-adventure/Tiles/Large tiles/Thick outline/tile_0001.png" id="2_cp0cv"]
+[ext_resource type="Script" uid="uid://bgp54i7w3xuwl" path="res://Scenes/Region_Panel/region_panel.gd" id="2_ulwrl"]
+[ext_resource type="Script" uid="uid://cyfsgtojes72t" path="res://Addons/dynamic_table/dynamic_table.gd" id="4_4bebe"]
+[ext_resource type="PackedScene" uid="uid://q05nq6jjq6gr" path="res://Scenes/Workplace_Button/workplace_button.tscn" id="4_jronl"]
+[ext_resource type="PackedScene" uid="uid://dox8jshli6rwu" path="res://Scenes/Goods_Counter_Box/Goods_Counter_Box.tscn" id="6_58mmr"]
+[ext_resource type="PackedScene" uid="uid://c5n0hjfl7akew" path="res://Scenes/trade_box/trade.tscn" id="6_bkugv"]
+
+[node name="Region_Panel" type="NinePatchRect" node_paths=PackedStringArray("tab_bar", "info_container", "population_container", "workplaces_container", "market_container", "market_table", "region_name_label", "constructions_panel", "export_panel", "import_panel")]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 90.0
+offset_right = 640.0
+offset_bottom = -10.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+texture = ExtResource("1_7wb0g")
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+script = ExtResource("2_ulwrl")
+tab_bar = NodePath("RegionBody/TabContainer")
+info_container = NodePath("RegionBody/TabContainer/Overview")
+population_container = NodePath("RegionBody/TabContainer/Population")
+workplaces_container = NodePath("RegionBody/TabContainer/Workplaces/Workplaces/ScrollContainer/WorkplaceList")
+market_container = NodePath("RegionBody/TabContainer/Market")
+market_table = NodePath("RegionBody/TabContainer/Market/MarketTable")
+region_name_label = NodePath("RegionNameRect/Region_Name")
+constructions_panel = NodePath("RegionBody/TabContainer/Construction/NinePatchRect/ScrollContainer/Constructionlist")
+export_panel = NodePath("RegionBody/TabContainer/Trade/HBoxContainer/NinePatchRect2/Exports/Exports")
+import_panel = NodePath("RegionBody/TabContainer/Trade/HBoxContainer/NinePatchRect/Imports/Imports")
+
+[node name="RegionNameRect" type="NinePatchRect" parent="."]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_left = 10.0
+offset_top = -4.0
+offset_right = -10.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+texture = ExtResource("2_cp0cv")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="Region_Name" type="Label" parent="RegionNameRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.5
+offset_top = -11.5
+offset_right = 33.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Region 1"
+
+[node name="RegionBody" type="NinePatchRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 40.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+mouse_filter = 1
+texture = ExtResource("2_cp0cv")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="TabContainer" type="TabContainer" parent="RegionBody"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 1
+
+[node name="Overview" type="VBoxContainer" parent="RegionBody/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Workplaces" type="Panel" parent="RegionBody/TabContainer"]
+layout_mode = 2
+mouse_filter = 1
+metadata/_tab_index = 1
+
+[node name="Workplaces" type="NinePatchRect" parent="RegionBody/TabContainer/Workplaces"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+texture = ExtResource("2_cp0cv")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="ScrollContainer" type="ScrollContainer" parent="RegionBody/TabContainer/Workplaces/Workplaces"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WorkplaceList" type="GridContainer" parent="RegionBody/TabContainer/Workplaces/Workplaces/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 25
+theme_override_constants/v_separation = 15
+columns = 3
+
+[node name="NinePatchRect" parent="RegionBody/TabContainer/Workplaces/Workplaces/ScrollContainer/WorkplaceList" instance=ExtResource("4_jronl")]
+layout_mode = 2
+
+[node name="NinePatchRect3" parent="RegionBody/TabContainer/Workplaces/Workplaces/ScrollContainer/WorkplaceList" instance=ExtResource("4_jronl")]
+layout_mode = 2
+
+[node name="NinePatchRect2" parent="RegionBody/TabContainer/Workplaces/Workplaces/ScrollContainer/WorkplaceList" instance=ExtResource("4_jronl")]
+layout_mode = 2
+
+[node name="NinePatchRect4" parent="RegionBody/TabContainer/Workplaces/Workplaces/ScrollContainer/WorkplaceList" instance=ExtResource("4_jronl")]
+layout_mode = 2
+
+[node name="Population" type="VBoxContainer" parent="RegionBody/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Market" type="Panel" parent="RegionBody/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
+
+[node name="MarketTable" type="Control" parent="RegionBody/TabContainer/Market"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_4bebe")
+default_minimum_column_width = 20.0
+
+[node name="Trade" type="Panel" parent="RegionBody/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RegionBody/TabContainer/Trade"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="NinePatchRect" type="NinePatchRect" parent="RegionBody/TabContainer/Trade/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("2_cp0cv")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="Imports" type="ScrollContainer" parent="RegionBody/TabContainer/Trade/HBoxContainer/NinePatchRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Imports" type="VBoxContainer" parent="RegionBody/TabContainer/Trade/HBoxContainer/NinePatchRect/Imports"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Trade" parent="RegionBody/TabContainer/Trade/HBoxContainer/NinePatchRect/Imports/Imports" instance=ExtResource("6_bkugv")]
+layout_mode = 2
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="RegionBody/TabContainer/Trade/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("2_cp0cv")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="Exports" type="ScrollContainer" parent="RegionBody/TabContainer/Trade/HBoxContainer/NinePatchRect2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Exports" type="VBoxContainer" parent="RegionBody/TabContainer/Trade/HBoxContainer/NinePatchRect2/Exports"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Trade2" parent="RegionBody/TabContainer/Trade/HBoxContainer/NinePatchRect2/Exports/Exports" instance=ExtResource("6_bkugv")]
+layout_mode = 2
+
+[node name="Construction" type="Panel" parent="RegionBody/TabContainer"]
+visible = false
+layout_mode = 2
+mouse_filter = 1
+metadata/_tab_index = 5
+
+[node name="NinePatchRect" type="NinePatchRect" parent="RegionBody/TabContainer/Construction"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+texture = ExtResource("2_cp0cv")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="ScrollContainer" type="ScrollContainer" parent="RegionBody/TabContainer/Construction/NinePatchRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Constructionlist" type="GridContainer" parent="RegionBody/TabContainer/Construction/NinePatchRect/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 15
+columns = 3
+
+[node name="Construction_panel" parent="RegionBody/TabContainer/Construction/NinePatchRect/ScrollContainer/Constructionlist" instance=ExtResource("6_58mmr")]
+layout_mode = 2
+
+[node name="Construction_panel3" parent="RegionBody/TabContainer/Construction/NinePatchRect/ScrollContainer/Constructionlist" instance=ExtResource("6_58mmr")]
+layout_mode = 2
+
+[node name="Construction_panel2" parent="RegionBody/TabContainer/Construction/NinePatchRect/ScrollContainer/Constructionlist" instance=ExtResource("6_58mmr")]
+layout_mode = 2

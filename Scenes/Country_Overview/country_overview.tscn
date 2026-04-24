@@ -1,0 +1,50 @@
+[gd_scene load_steps=3 format=3 uid="uid://bgfvfrkfxryqt"]
+
+[ext_resource type="Texture2D" uid="uid://dg4ibisy5ewo5" path="res://Graphics/kenney_ui-pack-pixel-adventure/Tiles/Large tiles/Thick outline/tile_0001.png" id="1_31pq4"]
+[ext_resource type="Script" uid="uid://ccbafnrh8qpku" path="res://Scenes/Country_Overview/country_overview.gd" id="2_dihoe"]
+
+[node name="Country Overview" type="NinePatchRect" node_paths=PackedStringArray("country_name", "finance_button")]
+custom_minimum_size = Vector2(100, 0)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -352.0
+offset_right = -2.0
+offset_bottom = 130.0
+grow_horizontal = 0
+texture = ExtResource("1_31pq4")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+script = ExtResource("2_dihoe")
+country_name = NodePath("VSplitContainer/BalanceRank/CountryName")
+finance_button = NodePath("VSplitContainer/Menus/FinanceButton")
+
+[node name="VSplitContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 9.0
+offset_right = 339.0
+offset_bottom = 49.0
+
+[node name="BalanceRank" type="HBoxContainer" parent="VSplitContainer"]
+layout_mode = 2
+
+[node name="Rank" type="Button" parent="VSplitContainer/BalanceRank"]
+layout_mode = 2
+text = "#1"
+
+[node name="CountryName" type="Label" parent="VSplitContainer/BalanceRank"]
+layout_mode = 2
+text = "Knechtland"
+
+[node name="KeyFigures" type="HBoxContainer" parent="VSplitContainer"]
+layout_mode = 2
+
+[node name="Menus" type="HBoxContainer" parent="VSplitContainer"]
+layout_mode = 2
+
+[node name="FinanceButton" type="Button" parent="VSplitContainer/Menus"]
+layout_mode = 2
+text = "Finances"
