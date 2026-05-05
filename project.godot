@@ -17,7 +17,6 @@ config/icon="res://Graphics/icon.svg"
 
 [autoload]
 
-Province_Data="*res://province_data.gd"
 GameState="*res://gamestate.gd"
 Defines="*res://Metadata/Defines.gd"
 UI="*res://UI/UI_Control.gd"

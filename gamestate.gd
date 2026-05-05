@@ -51,7 +51,7 @@ func daily_tick():
 	pass
 	
 func weekly_tick():
-	await economic_system.econmic_cycle()
+	economic_system.econmic_cycle()
 	employment()
 	
 	

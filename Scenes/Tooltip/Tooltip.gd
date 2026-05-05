@@ -4,7 +4,7 @@ extends Control
 var is_locked := false
 var timer := 0.0
 var nested_tooltip
-@onready var core_tooltip = get_tree().root.get_node("Main/UI_layer/Tooltip")
+@onready var core_tooltip = get_tree().root.get_node_or_null("Main/UI/Tooltip")
 var hover_timer := Timer.new()
 var meta
 var text

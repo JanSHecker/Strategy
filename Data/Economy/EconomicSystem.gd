@@ -7,12 +7,16 @@ var requests = {}
 var target_region_id
 const MIN_TRADE = 10.0
 const MAX_TRADES_PER_GOOD = 3
+var rust_economy
 
 
 @export var region_panel: Control
 
 func _ready() -> void:
 	GameState.economic_system = self
+	if ClassDB.class_exists("EconomicRust") and ClassDB.can_instantiate("EconomicRust"):
+		rust_economy = ClassDB.instantiate("EconomicRust")
+	assert(rust_economy != null, "EconomicRust extension is required. The GDScript trade path is kept only for reference.")
 
 #func _init() -> void:
 	#for good in Goods.goods_list:
@@ -24,7 +28,7 @@ func econmic_cycle():
 	produce()
 	offer()
 	request()
-	await market()
+	market()
 	update_market()
 	UI.update_workplace_panel()
 	UI.update_country_panel()
@@ -32,8 +36,7 @@ func econmic_cycle():
 	UI.update_pop_panel()
 
 func market():
-	for good in Goods.goods_list:
-		await trade3(good,requests[good],offers[good])
+	trade_cycle_rust()
 func request():
 	for region in GameState.regions.values():
 		for workplace in region.workplaces.values():
@@ -42,10 +45,7 @@ func request():
 			construction.send_order()
 	for pop in GameState.pop_register:
 		pop.consume()
-	for good in Goods.goods_list:
-		requests[good] = {}
-		for region in GameState.regions.values():
-			requests[good][region.id] = region.market.get_request(good)
+	requests.clear()
 
 
 
@@ -82,10 +82,7 @@ func produce():
 			
 			
 func offer():
-	for good in Goods.goods_list:
-		offers[good] = {}
-		for region in GameState.regions.values():
-			offers[good][region.id] = region.market.get_offers(good)
+	offers.clear()
 		
 
 	
@@ -142,6 +139,85 @@ func trade3(good:String ,good_requests: Dictionary, good_offers: Dictionary):
 				source_market.register_external_trade(source_market,target_market,trade_quantity,good)
 				if best_offer["amount"] <= 0.0:
 					viable_imports.erase(best_offer["market"].region.id)
+
+
+func trade_cycle_rust():
+	var region_ids := PackedStringArray()
+	var region_inputs: Array = []
+	var distance_matrix: Array = []
+	var good_names := PackedStringArray()
+	var good_weights := PackedFloat64Array()
+	for good_name in Goods.goods_list.keys():
+		good_names.append(good_name)
+		good_weights.append(Goods.goods_list[good_name].weight)
+
+	for region_id in GameState.regions.keys():
+		var region = GameState.regions[region_id]
+		var market: Market = region.market
+		region_ids.append(region_id)
+		region_inputs.append({
+			"region_id": region_id,
+			"prices": _collect_market_metric(market.prices, good_names),
+			"equilibrium_prices": _collect_market_metric(market.equilibrium_prices, good_names),
+			"offered_supply": _collect_market_metric(market.offered_supply, good_names),
+			"latent_demand": _collect_market_metric(market.latent_demand, good_names),
+			"sold_supply": _collect_market_metric(market.sold_supply, good_names),
+			"supplied_demand": _collect_market_metric(market.supplied_demand, good_names),
+			"export_amounts": _collect_market_metric(market.export, good_names),
+			"import_amounts": _collect_market_metric(market.import, good_names),
+			"offer_price_volumes": _collect_market_metric(market.offer_price_volume, good_names),
+		})
+
+	for source_region_id in region_ids:
+		var row := PackedFloat64Array()
+		var source_distances = GameState.transportation_network.cached_distances.get(source_region_id, {})
+		for target_region_id in region_ids:
+			row.append(source_distances.get(target_region_id, 0.0))
+		distance_matrix.append(row)
+
+	var result: Dictionary = rust_economy.simulate_market_cycle(
+		region_inputs,
+		region_ids,
+		good_names,
+		good_weights,
+		distance_matrix,
+		MIN_TRADE,
+		MAX_TRADES_PER_GOOD
+	)
+	apply_trade_cycle_results(result, good_names)
+
+
+func apply_trade_cycle_results(result: Dictionary, good_names: PackedStringArray):
+	for region_result in result["regions"]:
+		var payload: Dictionary = region_result
+		var region = GameState.regions[payload["region_id"]]
+		var market: Market = region.market
+		_apply_market_metric(market.sold_supply, good_names, payload["sold_supply"])
+		_apply_market_metric(market.supplied_demand, good_names, payload["supplied_demand"])
+		_apply_market_metric(market.export, good_names, payload["export_amounts"])
+		_apply_market_metric(market.import, good_names, payload["import_amounts"])
+		_apply_market_metric(market.offer_price_volume, good_names, payload["offer_price_volumes"])
+
+	for raw_trade in result["trades"]:
+		var trade: Dictionary = raw_trade
+		var source_region = GameState.regions[trade["source_region_id"]]
+		var target_region = GameState.regions[trade["target_region_id"]]
+		var source_market: Market = source_region.market
+		var target_market: Market = target_region.market
+		target_market.register_external_trade(source_market, target_market, trade["amount"], trade["good"])
+		source_market.register_external_trade(source_market, target_market, trade["amount"], trade["good"])
+
+
+func _collect_market_metric(metric: Dictionary, good_names: PackedStringArray) -> PackedFloat64Array:
+	var values := PackedFloat64Array()
+	for good_name in good_names:
+		values.append(metric.get(good_name, 0.0))
+	return values
+
+
+func _apply_market_metric(metric: Dictionary, good_names: PackedStringArray, values: PackedFloat64Array):
+	for index in range(good_names.size()):
+		metric[good_names[index]] = values[index]
 
 
 func calculate_import_amounts(viable_imports: Dictionary,target_market: Market, desired_amount: float, good: String):

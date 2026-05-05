@@ -6,7 +6,7 @@ signal speed_changed(new_speed)
 # Variable, um die aktuelle Geschwindigkeit zu speichern
 var current_speed = 1.0
 # Spiel-Datum als einfache Werte (du kannst sie auch als echte Datumstypen verwalten)
-var weekday_counter = 1
+var weekday_counter = 0
 var display_day = 1
 var game_month = 1
 var game_year = 1000
@@ -20,6 +20,7 @@ var time_per_day = 1.0  # 1 echter Sekunde = 1 Ingame-Tag (kann angepasst werden
 
 # Timer für die Zeitaktualisierung
 var time_passed = 0.0
+var is_advancing_date = false
 
 # Referenz zum Label, das das Datum anzeigt
 @onready var weekday_label = $Time/Weekday/WeekdayLabel
@@ -57,22 +58,25 @@ func _ready():
 	_on_speed_button_pressed(0)
 # Prozess, der jeden Frame läuft und das Datum aktualisiert
 func _process(delta: float):
+	if is_advancing_date:
+		return
+
 	# Aktualisiere die vergangene Zeit, multipliziert mit der Spielgeschwindigkeit
 	time_passed += delta * current_speed
 
 	# Überprüfen, ob ein Tag vergangen ist
 	if time_passed >= time_per_day:
-		time_passed = 0.0  # Zeit zurücksetzen
-		await advance_game_date()  # Datum um einen Tag weiterstellen
+		time_passed -= time_per_day
+		advance_game_date()  # Datum um einen Tag weiterstellen
 		
 # Funktion, um das Ingame-Datum um einen Tag voranzuschreiten
 func advance_game_date():
-	weekday_counter += 1
+	is_advancing_date = true
+	weekday_counter = (weekday_counter + 1) % weekday.size()
 	display_day += 1
 	GameState.daily_tick()
-	if weekday_counter == 7:
-		await GameState.weekly_tick()
-		weekday_counter = 0
+	if weekday_counter == weekday.size() - 1:
+		GameState.weekly_tick()
 	if display_day > 30:  # Einfache Annahme: Jeder Monat hat 30 Tage
 		display_day = 1
 		game_month += 1
@@ -83,6 +87,7 @@ func advance_game_date():
 			GameState.yearly_tick()
 
 	# Aktualisiere das UI-Label, um das neue Datum anzuzeigen
-	weekday_label.text = weekday[weekday_counter - 1]
+	weekday_label.text = weekday[weekday_counter]
 	date_label.text = "Date: %02d/%02d/%d" % [display_day, game_month, game_year]
+	is_advancing_date = false
 	
