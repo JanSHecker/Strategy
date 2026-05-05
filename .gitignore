@@ -1,3 +1,4 @@
 .godot/
 native/strategy_economy/target/
+*.import
 *.tmp
